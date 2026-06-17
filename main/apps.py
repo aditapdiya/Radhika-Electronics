@@ -6,3 +6,16 @@ class MainConfig(AppConfig):
 
     def ready(self):
         import main.signals 
+
+
+
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+if not User.objects.filter(username='admin').exists():
+    User.objects.create_superuser(
+        username='admin',
+        email='jajsandesh@gmail.com',
+        password='admin'
+    )
