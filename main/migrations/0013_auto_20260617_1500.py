@@ -27,5 +27,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        create_admin()
-    ]
+migrations.RunPython(create_admin),    ]
