@@ -1,0 +1,343 @@
+:root {
+  --bg-color: #0d1117;
+  --text-color: #ffffff;
+  --accent-color: #0071ff;
+  --base-variant: #101425;
+  --card-bg: #1e232a;
+}
+
+body.dark-theme {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Urbanist', sans-serif;
+}
+
+body.light-theme {
+  background-color: #f4f4f4;
+  color: #222;
+}
+
+/* Navbar Styling */
+.navbar {
+  background-color: var(--base-variant);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar-brand {
+  color: var(--accent-color) !important;
+}
+
+.navbar-nav .nav-link {
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+}
+
+.navbar-nav .nav-link:hover {
+  color: var(--accent-color);
+}
+
+.navbar-nav {
+  align-items: center;
+}
+
+.navbar-collapse {
+  justify-content: space-between;
+}
+
+.navbar .form-control {
+  background-color: #0f1624;
+  color: #fff;
+  border: 1px solid #2c3e50;
+  border-radius: 6px;
+}
+
+.navbar .form-control::placeholder {
+  color: #aaa;
+}
+
+/* Search and toggle button style */
+.navbar .btn-outline-light {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.navbar .btn-outline-light:hover {
+  background-color: var(--accent-color);
+  color: #fff;
+}
+
+.navbar .btn-outline-light i {
+  color: var(--accent-color);
+}
+
+body.dark-theme .btn-outline-light i {
+  color: var(--accent-color);
+}
+
+/* Icon Sizes */
+.navbar .nav-link i,
+.profile-sidebar ul li a i {
+  font-size: 1.4rem;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.navbar .nav-item {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+/* Logout icon */
+.navbar .nav-link.text-danger i {
+  font-size: 1.5rem;
+  color: #dc3545;
+  transition: transform 0.2s ease;
+}
+
+.navbar .nav-link.text-danger:hover i {
+  transform: scale(1.2);
+  color: #ff4d4d;
+}
+
+/* Sidebar */
+.profile-sidebar {
+  position: fixed;
+  top: 0;
+  right: -320px;
+  width: 300px;
+  height: 100%;
+  background: var(--card-bg);
+  color: var(--text-color);
+  box-shadow: -4px 0 30px rgba(0, 0, 0, 0.3);
+  transition: right 0.4s ease;
+  z-index: 9999;
+  padding-top: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Urbanist', sans-serif;
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.profile-sidebar .profile-header {
+  padding: 1.5rem;
+  background-color: var(--base-variant);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: center;
+  position: relative;
+}
+
+.profile-sidebar .profile-header i {
+  font-size: 5rem;
+  margin-bottom: 0.7rem;
+  color: var(--accent-color);
+}
+
+.profile-sidebar .close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+.profile-sidebar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-sidebar ul li a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  font-size: 0.95rem;
+  color: var(--text-color);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.profile-sidebar ul li a:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--accent-color);
+}
+
+/* Overlay */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 9998;
+}
+
+/* Input Fields */
+input, select, textarea {
+  background-color: #0f1624;
+  color: white;
+  border: 1px solid #2c3e50;
+  border-radius: 6px;
+  padding: 10px;
+  width: 100%;
+}
+input[type="password"]:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 5px var(--accent-color);
+}
+
+body.light-theme input,
+body.light-theme textarea,
+body.light-theme select {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #ccc;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .navbar-collapse {
+    flex-direction: column;
+    align-items: start;
+    gap: 1rem;
+  }
+
+  .navbar-nav {
+    width: 100%;
+    justify-content: start;
+    gap: 0.5rem;
+  }
+
+  .navbar .form-control {
+    width: 100%;
+  }
+}
+
+/* 👤 Profile Greeting Text */
+.profile-greeting {
+  color: var(--text-color);
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-top: 6px;
+  transition: all 0.3s ease;
+}
+
+/* Light Mode Greeting */
+body.light-theme  {
+  color: #0071ff;
+  background-color: #e6f0ff;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+body.light-theme .profile-greeting {
+  color: #0071ff;
+}
+
+
+/* Smooth Icon Transitions */
+.navbar .nav-link i,
+.profile-sidebar ul li a i,
+.profile-header i,
+.profile-greeting {
+  transition: all 0.3s ease;
+}
+
+.product-card {
+  background: #fff;
+  border: 1px solid #eee;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  min-height: 420px;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.07);
+}
+
+.product-card img {
+  height: 200px;
+  object-fit: contain;
+}
+
+.wishlist-icon {
+  background: #fff;
+  border-radius: 50%;
+  padding: 6px 9px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  color: #555;
+  z-index: 10;
+}
+
+.wishlist-icon:hover {
+  color: red;
+  border-color: red;
+}
+
+.product-card h6 {
+  font-size: 1rem;
+  color: #222;
+}
+
+.product-card p {
+  font-size: 0.875rem;
+}
+
+.btn-outline-dark {
+  border: 1px solid #333;
+  color: #333;
+}
+
+.btn-outline-dark:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+.product-card:hover {
+  transform: scale(1.02);
+  transition: 0.3s;
+  border-color: #0d6efd;
+}
+
+.card select,
+.card input {
+  background-color: #2c2f33 !important;
+  color: #ffffff !important;
+}
+
+.btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+/* Hover effect for wishlist heart */
+.wishlist-btn:hover i {
+  color: #ff4d4d !important;
+}
+.product-card:hover {
+  transform: scale(1.02);
+  transition: transform 0.3s ease;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+}
+
+.card-body p {
+  font-size: 0.9rem;
+}
+
+.card .btn {
+  font-size: 0.85rem;
+  font-weight: 500;
+}

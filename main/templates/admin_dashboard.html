@@ -1,0 +1,159 @@
+{% extends 'base-db-admin.html' %}
+{% load static %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block main %}
+<style>
+  body {
+    background: linear-gradient(to right, #e0eafc, #cfdef3); 
+    min-height: 100vh;
+  }
+
+  .card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-custom {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 8px;
+  }
+
+  .bg-gradient-purple {
+    background: linear-gradient(to right,rgb(87, 50, 155),rgb(155, 59, 193));
+    color: white;
+  }
+
+  .bg-gradient-teal {
+    background: linear-gradient(to right, #20c997, #28d8a2);
+    color: white;
+  }
+
+  .bg-gradient-blue {
+    background: linear-gradient(to right, #007bff, #00c6ff);
+    color: white;
+  }
+
+  .bg-gradient-dark {
+    background: linear-gradient(to right,rgb(201, 37, 61),rgba(172, 84, 13, 0.52));
+    color: white;
+  }
+</style>
+
+<div class="container-fluid mt-4">
+  <h2 class="mb-4 text-dark">Welcome, Admin!</h2>
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card mb-3 bg-gradient-purple">
+        <div class="card-body">
+          <h5 class="card-title">Total Users</h5>
+          <p class="card-text fs-4">{{ total_users }}</p>
+          <a href="{% url 'user_list' %}" class="btn btn-light shadow-sm btn-custom">View</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card mb-3 bg-gradient-teal">
+        <div class="card-body">
+          <h5 class="card-title">Total Orders</h5>
+          <p class="card-text fs-4">{{ total_orders }}</p>
+          <a href="{% url 'order_list' %}" class="btn text-dark border-0 btn-light buttonspc">View</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card mb-3 bg-gradient-blue">
+        <div class="card-body">
+          <h5 class="card-title">Total Revenue</h5>
+          <p class="card-text fs-4">₹{{ total_revenue }}</p>
+          <a href="{% url 'revenue_list' %}" class="btn btn-light shadow-sm btn-custom">View</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card mb-3 bg-gradient-dark">
+        <div class="card-body">
+          <h5 class="card-title">Total Products</h5>
+          <p class="card-text fs-4">{{ total_products }}</p>
+          <a href="{% url 'product_list' %}" class="btn btn-light">View</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card my-4">
+    <div class="card-header bg-secondary text-white">
+      <h5 class="mb-0">Recent Orders</h5>
+    </div>
+    <div class="card-body table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>User</th>
+            <th>Status</th>
+            <th>Total (₹)</th>
+            <th>Ordered At</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in recent_orders %}
+          <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.user.username }}</td>
+            <td>{{ order.status }}</td>
+            <td>{{ order.total_amount }}</td>
+            <td>{{ order.ordered_at|date:"d M Y" }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card my-4">
+    <div class="card-header bg-dark text-white">
+      <h5 class="mb-0">Revenue Chart</h5>
+    </div>
+    <div class="card-body">
+      <canvas id="revenueChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% comment %} <script>
+  const ctx = document.getElementById('revenueChart').getContext('2d');
+  const revenueChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: {{ order_dates|safe }},
+      datasets: [{
+        label: 'Revenue (₹)',
+        data: {{ order_totals|safe }},
+        backgroundColor: '#4CAF50',
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: true }
+      },
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>  {% endcomment %}
+{% endblock %}

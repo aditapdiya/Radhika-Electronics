@@ -1,0 +1,206 @@
+/* modern2.css */
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600;700&display=swap');
+
+:root {
+  --primary: #4a90e2;
+  --secondary: #f5a623;
+  --bg-light: #fdfdfd;
+  --bg-dark: #1e1e2f;
+  --text-dark: #333;
+  --text-light: #eee;
+}
+
+body {
+  font-family: 'Urbanist', sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
+/* Navbar */
+.navbar {
+  font-size: 1rem;
+}
+.navbar-brand {
+  font-size: 1.6rem;
+}
+.nav-link {
+  margin-left: 15px;
+  color: var(--text-dark) !important;
+  transition: 0.3s;
+}
+.nav-link:hover {
+  color: var(--primary) !important;
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(rgba(74, 144, 226, 0.8), rgba(34, 34, 59, 0.9)), url('/static/images/hero-modern.jpg') no-repeat center center/cover;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  padding: 80px 20px;
+}
+.hero-section h1 {
+  font-size: 3.2rem;
+  font-weight: 700;
+}
+.hero-section p {
+  font-size: 1.25rem;
+}
+.btn-hero {
+  background-color: var(--secondary);
+  border: none;
+  color: #000;
+  font-weight: 600;
+  padding: 12px 30px;
+  border-radius: 30px;
+  transition: 0.3s;
+}
+.btn-hero:hover {
+  background-color: #ffcc80;
+  color: black;
+}
+
+/* Section Titles */
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+/* About us */
+/* About Us Image Styling */
+.about-photo img {
+  max-width: 320px;
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.about-photo img:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Stylish Horizontal Rule */
+hr.about-hr {
+  border: 0;
+  height: 3px;
+  background: linear-gradient(to right, transparent, var(--primary), transparent);
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+}
+
+
+/* Feedback Section */
+.feedback-section {
+  max-width: 800px;
+  margin: auto;
+  background-color: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+.feedback-section input,
+.feedback-section textarea {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+.feedback-section button {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+.feedback-section button:hover {
+  background-color: #357abd;
+  transform: translateY(-2px);
+}
+
+/* Footer */
+.footer {
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  padding: 40px 0 20px;
+  font-size: 0.95rem;
+}
+.footer a {
+  color: #ccc;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.footer a:hover {
+  color: var(--secondary);
+}
+.footer .footer-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--secondary);
+}
+.footer ul {
+  padding-left: 0;
+  list-style: none;
+}
+.footer h5 {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+.footer .social a {
+  margin-right: 15px;
+  color: var(--text-light);
+  font-size: 1.2rem;
+}
+.footer .bottom {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.85rem;
+}
+
+/* Cards */
+.card {
+  border: none;
+  border-radius: 12px;
+  transition: 0.3s ease-in-out;
+}
+.card:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+}
+.card-img-top {
+  height: 160px;
+  object-fit: cover;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 2.5rem;
+  }
+  .hero-section p {
+    font-size: 1rem;
+  }
+  .btn-hero {
+    width: 100%;
+  }
+  .footer {
+    text-align: center;
+  }
+}

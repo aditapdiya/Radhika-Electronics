@@ -1,0 +1,173 @@
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Invoice #{{ order.id }}</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      font-size: 14px;
+      margin: 40px;
+      color: #000;
+      background: #fff;
+      position: relative;
+    }
+
+    /* Watermark */
+    body::before {
+      content: "Radhika Electronics";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-30deg);
+      font-size: 100px;
+      color: #000;
+      opacity: 0.05;
+      z-index: 0;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    .invoice-box {
+      position: relative;
+      z-index: 1;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #000;
+      padding-bottom: 10px;
+    }
+
+    .header .company {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .header .info {
+      text-align: right;
+      font-size: 12px;
+      color: #555;
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 5px;
+    }
+
+    th, td {
+      border: 1px solid #000;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    .total-row td {
+      font-weight: bold;
+      background: #f9f9f9;
+    }
+
+    .footer {
+      margin-top: 40px;
+      font-size: 12px;
+      text-align: center;
+      border-top: 1px dashed #333;
+      padding-top: 10px;
+      color: #555;
+    }
+
+    .qr-code {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="invoice-box">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="company">
+        Radhika Electronics<br>
+        <small style="font-size:13px; font-weight:normal;">
+          123 Retail Street, Bengaluru, India<br>
+          support@megamartx.com | +91 98765 43210
+        </small>
+      </div>
+      <div class="info">
+        <p><strong>Date:</strong> {{ order.ordered_at|date:"d M Y" }}</p>
+        <p><strong>Time:</strong> {{ order.ordered_at|date:"h:i A" }}</p>
+        <p><strong>Invoice #</strong> {{ order.id }}</p>
+      </div>
+    </div>
+
+    <!-- Customer Info -->
+    <div class="section">
+      <div class="section-title">Billed To:</div>
+      <p>
+        <strong>{{ order.user.username }}</strong><br>
+        Mobile: {{ order.user.userprofile.mobile|default:"N/A" }}
+      </p>
+    </div>
+
+    <!-- Items -->
+    <div class="section">
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Unit Price (&#8377;)</th>
+            <th>Subtotal (&#8377;)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in items %}
+          <tr>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>&#8377;{{ item.price }}</td>
+            <td>&#8377;{{ item.quantity|multiply:item.price }}</td>
+          </tr>
+          {% endfor %}
+          <tr class="total-row">
+            <td colspan="3">Total Amount</td>
+            <td>&#8377;{{ order.total_amount }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- QR Code -->
+    <div class="qr-code">
+      <p><strong>Scan QR to View Order</strong></p>
+      <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code" width="140">
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      This is a system-generated invoice. No signature required.<br>
+      Thank you for shopping at Radhika Electronics!
+    </div>
+
+  </div>
+</body>
+</html>

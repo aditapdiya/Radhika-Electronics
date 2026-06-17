@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Radhika Electronics</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/login-glow.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+  body {
+    opacity: 1;
+    transition: opacity 0.5s ease;
+  }
+  body.fade-out {
+    opacity: 0;
+  }
+</style>
+
+</head>
+<body>
+
+<a href="javascript:history.back()" class="back-top">
+  <i class="fas fa-arrow-left"></i> Back
+</a>
+
+<div class="login-wrapper">
+  <div class="login-box">
+    <div class="form-box">
+      <h2>Log In</h2>
+      <form method="POST" novalidate>
+        {% csrf_token %}
+        <div class="input-group">
+          <input type="text" name="mobile" required>
+          <label>Mobile Number</label>
+        </div>
+        <div class="input-group">
+          <input type="password" name="password" required>
+          <label>Password</label>
+        </div>
+        <div class="text-forgot">
+          <a href="{% url 'password_reset' %}">Forgot Password?</a>
+        </div>
+        <button type="submit" class="glow-btn">Sign In</button>
+        <div class="text-bottom">
+          <p class="alt-link">Don't have an account? <a id="goToRegister" href="{% url 'register_user' %}">Sign Up</a></p>
+
+        </div>
+      </form>
+    </div>
+
+    <div class="image-box">
+      <img src="{% static 'images/robot-glow.png' %}" alt="Robot">
+    </div>
+  </div>
+</div>
+
+<!-- Modal for success or failure -->
+{% if login_failed or login_success %}
+<div id="loginModal" class="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-icon">
+      {% if login_failed %}
+        <i class="fas fa-times"></i>
+      {% else %}
+        <i class="fas fa-check"></i>
+      {% endif %}
+    </div>
+    <h3 class="modal-title">
+      {% if login_failed %} Login Failed {% else %} Login Successful {% endif %}
+    </h3>
+    <p class="modal-message">
+      {% if login_failed %}
+        Invalid mobile number or password!
+      {% else %}
+        Redirecting to your dashboard...
+      {% endif %}
+    </p>
+    <button onclick="closeModal()" class="modal-btn">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+</div>
+{% endif %}
+
+<script>
+  function closeModal() {
+    document.getElementById('loginModal').style.display = 'none';
+  }
+
+  {% if login_success %}
+    setTimeout(() => {
+      window.location.href = "{% url redirect_url %}";
+    }, 2000);
+  {% endif %}
+    document.addEventListener("DOMContentLoaded", function () {
+    const link = document.getElementById("goToRegister");
+    if (link) {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        document.body.classList.add("fade-out");
+        setTimeout(function () {
+          window.location.href = link.href;
+        }, 500); // Match the duration in CSS
+      });
+    }
+  });
+</script>
+
+
+</body>
+</html>

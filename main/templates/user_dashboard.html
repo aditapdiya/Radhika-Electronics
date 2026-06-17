@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}User Dashboard{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/style-user-dashboard.css' %}">
+
+<div class="container-fluid py-4">
+  <h2 class="dashboard-title">Welcome, {{ request.user.username }} 👋</h2>
+
+  <!-- Summary Cards -->
+  <div class="row">
+    <div class="col-md-3">
+      <div class="dashboard-card">
+        <h5>Total Orders</h5>
+        <p>{{ total_orders }}</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="dashboard-card">
+        <h5>Wishlist Items</h5>
+        <p>{{ wishlist_count }}</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="dashboard-card">
+        <h5>Total Spent</h5>
+        <p>₹{{ total_spent }}</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="dashboard-card">
+        <h5>Last Order</h5>
+        <p>{% if last_order_date %}{{ last_order_date|date:"M d, Y" }}{% else %}N/A{% endif %}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Orders -->
+  <h5 class="section-heading mt-4">Recent Orders</h5>
+  <div class="dashboard-card table-responsive">
+    {% if recent_orders %}
+      <table class="table table-striped text-white">
+        <thead>
+          <tr>
+            <th>#Order ID</th>
+            <th>Date</th>
+            <th>Amount (₹)</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in recent_orders %}
+            <tr>
+              <td>{{ order.id }}</td>
+              <td>{{ order.ordered_at|date:"d M Y" }}</td>
+              <td>{{ order.total_amount }}</td>
+              <td><span class="badge bg-info">{{ order.status }}</span></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No recent orders found.</p>
+    {% endif %}
+  </div>
+
+  <!-- Wishlist Preview -->
+  <h5 class="section-heading mt-4">Wishlist Preview</h5>
+  <div class="row">
+    {% for item in wishlist_items %}
+      <div class="col-md-3 mb-3">
+        <div class="product-card">
+          <img src="{{ item.product.image.url }}" class="img-fluid mb-2" alt="{{ item.product.name }}">
+          <h6 class="text-truncate">{{ item.product.name }}</h6>
+          <p>₹{{ item.product.price }}</p>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-muted">No items in wishlist.</p>
+    {% endfor %}
+  </div>
+
+  <!-- Chart -->
+  <h5 class="section-heading mt-4">Spending History (₹)</h5>
+  <div class="dashboard-card">
+    <canvas id="spendingChart" height="100"></canvas>
+  </div>
+
+  <!-- Quick Actions -->
+  <h5 class="section-heading mt-4">Quick Actions</h5>
+  <div class="dashboard-card text-center">
+    <a href="{% url 'order_history' %}" class="btn btn-outline-light m-2">View All Orders</a>
+    <a href="{% url 'wishlist' %}" class="btn btn-outline-light m-2">Go to Wishlist</a>
+    <a href="{% url 'changepwd_admin' %}" class="btn btn-outline-warning m-2">Change Password</a>
+  </div>
+
+  <!-- Dark Mode Toggle -->
+  <div class="text-end mt-4">
+    <button class="btn btn-sm btn-secondary" onclick="toggleDarkMode()">🌗 Toggle Dark Mode</button>
+  </div>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('spendingChart').getContext('2d');
+  const spendingChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: {{ order_dates|safe }},
+      datasets: [{
+        label: '₹ Spent',
+        data: {{ order_totals|safe }},
+        borderColor: '#0dcaf0',
+        backgroundColor: 'rgba(13, 202, 240, 0.2)',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.3,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          labels: { color: getComputedStyle(document.body).getPropertyValue('--text-color') }
+        }
+      },
+      scales: {
+        x: { ticks: { color: getComputedStyle(document.body).getPropertyValue('--text-color') } },
+        y: { ticks: { color: getComputedStyle(document.body).getPropertyValue('--text-color') } }
+      }
+    }
+  });
+
+  function toggleDarkMode() {
+    document.body.classList.toggle('lightmode');
+    localStorage.setItem('theme', document.body.classList.contains('lightmode') ? 'light' : 'dark');
+    location.reload();
+  }
+
+  // Load saved theme
+  window.onload = () => {
+    const theme = localStorage.getItem('theme');
+    if (theme === 'light') document.body.classList.add('lightmode');
+  };
+</script>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base-db-admin.html' %}
+{% block title %}Monthly Revenue List{% endblock %}
+{% block main %}
+<div class="container mt-4">
+  <h3 class="mb-4">💰 Monthly Revenue Report</h3>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Month</th>
+      <th>Total Revenue (₹)</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in revenue_data %}
+    <tr>
+      <td>{{ row.month|date:"F Y" }}</td>
+      <td>₹{{ row.total }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}
+

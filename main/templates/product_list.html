@@ -1,0 +1,249 @@
+{% extends "base-db-admin.html" %}
+{% block title %}Product List{% endblock %}
+
+{% block main %}
+{% load static %}
+
+<!-- Bootstrap Tooltip Script -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(el => new bootstrap.Tooltip(el));
+    });
+</script>
+
+<style>
+    body {
+        background-color: #fdf6f0;
+    }
+
+    .custom-container {
+        max-width: 1600px;
+        margin: auto;
+        padding: 30px 20px;
+    }
+
+    .five-column-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 24px;
+    }
+
+    @media (max-width: 1400px) {
+        .five-column-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .five-column-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .five-column-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 576px) {
+        .five-column-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .product-card {
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #e3e3e3;
+        display: flex;
+        flex-direction: column;
+        animation: fadeIn 0.4s ease-in-out;
+        transition: box-shadow 0.4s ease, transform 0.3s ease;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .product-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+    }
+
+    .product-image {
+        width: 100%;
+        height: 140px;
+        object-fit: cover;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .product-body {
+        padding: 14px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        flex-grow: 1;
+    }
+
+    .product-title {
+        font-weight: 600;
+        font-size: 0.95rem;
+        margin-bottom: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #333;
+    }
+
+    .product-info-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        font-size: 0.75rem;
+        color: #666;
+    }
+
+    .product-info-row small {
+        flex: 1 1 45%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .btn-group-inline {
+        display: flex;
+        gap: 8px;
+        margin-top: auto;
+    }
+
+    .btn-sm {
+        font-size: 0.75rem;
+        padding: 4px 10px;
+        border-radius: 20px;
+    }
+
+    .btn-update {
+        background-color: #0d6efd;
+        color: #fff;
+        border: none;
+    }
+
+    .btn-update:hover {
+        background-color: #084298;
+    }
+
+    .btn-delete {
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+    }
+
+    .btn-delete:hover {
+        background-color: #a71d2a;
+    }
+
+    .badge-stock {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 0.7rem;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-weight: 500;
+        animation: pop 0.3s ease-in;
+    }
+
+    .badge-in { background-color: #28a745; color: #fff; }
+    .badge-low { background-color: #ffc107; color: #000; }
+    .badge-out { background-color: #dc3545; color: #fff; }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(12px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pop {
+        0% { transform: scale(0.5); opacity: 0; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    .pagination .page-link {
+        color: #0d6efd;
+        border: 1px solid #dee2e6;
+    }
+
+    .pagination .active .page-link {
+        background-color: #0d6efd;
+        color: #fff;
+        border-color: #0d6efd;
+    }
+</style>
+
+<div class="custom-container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="text-primary fw-bold">🛍️ Product List</h4>
+        <a href="{% url 'add_product' %}" class="btn btn-success shadow">+ Add Product</a>
+    </div>
+
+    {% if page_obj.object_list %}
+        <div class="five-column-grid">
+            {% for product in page_obj.object_list %}
+                <div class="product-card position-relative">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" class="product-image" alt="{{ product.name }}">
+                    {% else %}
+                        <img src="https://via.placeholder.com/180x140?text=No+Image" class="product-image" alt="No Image">
+                    {% endif %}
+
+                    {% if product.stock == 0 %}
+                        <span class="badge-stock badge-out">Out of Stock</span>
+                    {% elif product.stock <= 5 %}
+                        <span class="badge-stock badge-low">Low Stock</span>
+                    {% else %}
+                        <span class="badge-stock badge-in">In Stock</span>
+                    {% endif %}
+
+                    <div class="product-body">
+                        <p class="product-title" data-bs-toggle="tooltip" title="{{ product.name }}">{{ product.name }}</p>
+                        <div class="product-info-row">
+                            <small><strong>₹{{ product.price }}</strong></small>
+                            <small data-bs-toggle="tooltip" title="{{ product.category }}">Cat: {{ product.category }}</small>
+                            <small data-bs-toggle="tooltip" title="{{ product.brand }}">Brand: {{ product.brand }}</small>
+                            <small>Stock: {{ product.stock }}</small>
+                        </div>
+                        <div class="btn-group-inline">
+                            <a href="{% url 'update_product' product.id %}" class="btn btn-sm btn-update w-50">Update</a>
+                            <a href="{% url 'delete_product' product.id %}" class="btn btn-sm btn-delete w-50">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        <nav class="mt-5" aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                {% endif %}
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% else %}
+        <p class="text-muted">No products found.</p>
+    {% endif %}
+</div>
+{% endblock main %}

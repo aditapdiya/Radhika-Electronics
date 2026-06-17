@@ -1,0 +1,45 @@
+{% extends "base-db-admin.html" %}
+
+{% block title %}User List{% endblock %}
+
+{% block main %}
+<div class="container mt-4">
+    <h2>User List</h2>
+    {% if users %}
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Mobile number</th>
+                    <th>Address</th>
+                    <th>Date Joined</th>
+                    <th>Is Staff</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                {% if not user.is_superuser %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.first_name }}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.mobile }}</td>
+                        <td>{{ user.address }}</td>
+                        <td>{{ user.date_joined }}</td>
+                        <td>{{ user.is_staff }}</td>
+                    </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No users found.</p>
+    {% endif %}
+</div>
+{% endblock main %}

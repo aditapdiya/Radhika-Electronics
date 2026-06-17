@@ -1,0 +1,54 @@
+# Python
+_pycache_/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Virtual environment
+env/
+venv/
+ENV/
+*.env
+
+# Ignore environment variables
+.env
+
+# Django-related
+*.log
+db.sqlite3
+media/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Compiled files
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Static file collect output (optional)
+staticfiles/
+static_root/
+
+# Environment variable files
+.env
+.env.local
+
+# Migrations – Don't ignore migration .py files!
+# Only ignore _pycache_ and compiled .pyc files
+**/migrations/_pycache_/
+*/migrations/.pyc
+
+# Always ignore migration cache
+**/migrations/_pycache_/
+*/migrations/.pyc

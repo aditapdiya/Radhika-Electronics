@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="card shadow-sm p-4" style="max-width: 600px; margin: auto;">
+    <h3 class="text-accent mb-4"><i class="fas fa-user-circle me-2"></i>Your Profile</h3>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item bg-transparent text-white"><strong>Username:</strong> {{ request.user.username }}</li>
+      <li class="list-group-item bg-transparent text-white"><strong>Email:</strong> {{ request.user.email }}</li>
+      <li class="list-group-item bg-transparent text-white"><strong>Mobile:</strong> {{ profile.mobile }}</li>
+      <li class="list-group-item bg-transparent text-white"><strong>Address:</strong> {{ profile.address }}</li>
+    </ul>
+    <div class="mt-4 text-end">
+      <a href="{% url 'changepwd_admin' %}" class="btn btn-outline-light">Change Password</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

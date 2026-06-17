@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block title %}Shop - Radhika Electronics{% endblock %}
+{% load static %}
+{% block content %}
+
+<div class="container my-5">
+  <h2 class="mb-4 text-center text-white display-5 fw-bold">🛍️ Shop Products</h2>
+
+  <div class="row">
+    <div class="col-md-3 col-sm-12 mb-4">
+      <div class="card p-4 bg-dark text-white shadow rounded-4">
+        <h5 class="mb-3"><i class="fa-solid fa-filter"></i> Filter</h5>
+        <form method="get">
+          <!-- Category Filter -->
+          <div class="mb-3">
+            <label class="form-label"><i class="fa-solid fa-list"></i> Category</label>
+            <select name="category" class="form-select bg-secondary text-white border-0 rounded">
+              <option value="">All Categories</option>
+              {% for cat in categories %}
+                <option value="{{ cat.id }}" {% if request.GET.category == cat.id|stringformat:"s" %}selected{% endif %}>{{ cat.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Brand Filter -->
+          <div class="mb-3">
+            <label class="form-label"><i class="fa-solid fa-tags"></i> Brand</label>
+            <select name="brand" class="form-select bg-secondary text-white border-0 rounded">
+              <option value="">All Brands</option>
+              {% for brand in brands %}
+                <option value="{{ brand.id }}" {% if request.GET.brand == brand.id|stringformat:"s" %}selected{% endif %}>{{ brand.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Price Range -->
+          <div class="mb-3">
+            <label class="form-label"><i class="fa-solid fa-indian-rupee-sign"></i> Price</label>
+            <div class="d-flex gap-2">
+              <input type="number" name="min_price" value="{{ request.GET.min_price }}" class="form-control bg-secondary text-white border-0 rounded" placeholder="Min">
+              <input type="number" name="max_price" value="{{ request.GET.max_price }}" class="form-control bg-secondary text-white border-0 rounded" placeholder="Max">
+            </div>
+          </div>
+
+          <!-- Sort -->
+          <div class="mb-3">
+            <label class="form-label"><i class="fa-solid fa-arrow-up-wide-short"></i> Sort</label>
+            <select name="sort" class="form-select bg-secondary text-white border-0 rounded">
+              <option value="">Default</option>
+              <option value="price_asc" {% if request.GET.sort == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
+              <option value="price_desc" {% if request.GET.sort == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
+            </select>
+          </div>
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary rounded-pill">🔍 Apply</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="col-md-9">
+      {% if products %}
+        <div class="row">
+          {% for product in products %}
+            <div class="col-md-4 col-sm-6 mb-4">
+              <div class="card h-100 bg-dark text-white shadow-lg border border-secondary rounded-4 product-card">
+                <div class="position-relative">
+                  <a href="{% url 'add_to_wishlist' product.id %}" class="position-absolute top-0 end-0 m-2 text-danger">
+                    <i class="fa-regular fa-heart fa-lg"></i>
+                  </a>
+                  {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top p-3 rounded-top-4" style="height: 220px; object-fit: contain;">
+                  {% else %}
+                    <img src="{% static 'default.jpg' %}" class="card-img-top p-3 rounded-top-4" style="height: 220px; object-fit: contain;">
+                  {% endif %}
+                </div>
+                <div class="card-body d-flex flex-column">
+                  <h6 class="card-title text-info fw-bold mb-1">{{ product.name }}</h6>
+                  <small class="text-muted mb-2">Brand: <span class="text-light">{{ product.brand.name }}</span></small>
+                  <p class="text-warning fw-semibold fs-5">₹{{ product.price }}</p>
+                  <p class="text-light small mb-3" style="min-height: 60px;">{{ product.description|truncatechars:90 }}</p>
+
+                    {% if product.stock > 0 %}
+                      <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-sm mt-auto w-100">🛒 Add to Cart</a>
+                    {% else %}
+                      <button class="btn btn-secondary btn-sm mt-auto w-100" disabled>Out of Stock</button>
+                    {% endif %}                  
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="alert alert-warning text-center rounded-3 shadow" role="alert">
+          No products found with these filters.
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

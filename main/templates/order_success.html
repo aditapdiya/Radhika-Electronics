@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed - Radhika Electronics</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #166088;
+            --accent-color: #4fc3a1;
+            --success-color: #28a745;
+            --light-bg: #f8f9fa;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --border-radius: 15px;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e8f4ff 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .success-container {
+            max-width: 800px;
+            width: 100%;
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .success-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            border: none;
+        }
+        
+        .success-header {
+            background: linear-gradient(to right, #28a745, #20c997);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .success-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.3;
+            transform: rotate(30deg);
+        }
+        
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: bounce 1s ease infinite alternate;
+        }
+        
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+        
+        .success-header h1 {
+            font-weight: 800;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .success-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .success-body {
+            padding: 40px;
+        }
+        
+        .order-details-card {
+            background: var(--light-bg);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 5px solid var(--accent-color);
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px dashed #dee2e6;
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--secondary-color);
+        }
+        
+        .detail-label {
+            color: #6c757d;
+        }
+        
+        .detail-value {
+            font-weight: 600;
+            color: #212529;
+        }
+        
+        .status-badge {
+            background: linear-gradient(to right, #17a2b8, #138496);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .payment-badge {
+            background: linear-gradient(to right, #28a745, #20c997);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .info-box {
+            background: #e8f4ff;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin: 30px 0;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .info-icon {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            margin-right: 10px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-action {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-primary-action {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+        }
+        
+        .btn-primary-action:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(74, 111, 165, 0.3);
+            color: white;
+        }
+        
+        .btn-secondary-action {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+        
+        .btn-secondary-action:hover {
+            background: var(--light-bg);
+            transform: translateY(-3px);
+            color: var(--primary-color);
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ffd700;
+            border-radius: 50%;
+            opacity: 0;
+        }
+        
+        .timeline {
+            position: relative;
+            margin: 30px 0;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--accent-color);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -33px;
+            top: 5px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px var(--accent-color);
+        }
+        
+        .timeline-item.completed::before {
+            background: var(--success-color);
+            border-color: white;
+            box-shadow: 0 0 0 3px var(--success-color);
+        }
+        
+        .timeline-item.current::before {
+            background: white;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px var(--accent-color);
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(79, 195, 161, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(79, 195, 161, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(79, 195, 161, 0); }
+        }
+        
+        .timeline-content {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            border-left: 3px solid var(--accent-color);
+        }
+        
+        .timeline-content.completed {
+            border-left-color: var(--success-color);
+        }
+        
+        @media (max-width: 768px) {
+            .success-header {
+                padding: 30px 20px;
+            }
+            
+            .success-header h1 {
+                font-size: 2rem;
+            }
+            
+            .success-body {
+                padding: 25px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn-action {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-card">
+            <!-- Header -->
+            <div class="success-header">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h1>Order Confirmed!</h1>
+                <p>Thank you for your purchase. Your order has been successfully placed.</p>
+            </div>
+            
+            <!-- Body -->
+            <div class="success-body">
+                <!-- Order Details -->
+                <div class="order-details-card">
+                    <h3 class="mb-4"><i class="fas fa-clipboard-list me-2"></i> Order Details</h3>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Order ID</span>
+                        <span class="detail-value">#{{ order.id }}</span>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Order Date</span>
+                        <span class="detail-value">{{ order.ordered_at|date:"F d, Y h:i A" }}</span>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Payment Method</span>
+                        <span class="payment-badge">{{ order.get_payment_method_display }}</span>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Order Status</span>
+                        <span class="status-badge">{{ order.get_status_display }}</span>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">Total Amount</span>
+                        <span class="detail-value">₹{{ order.total_amount|floatformat:2 }}</span>
+                    </div>
+                </div>
+                
+                <!-- Order Timeline -->
+                <h4 class="mb-3"><i class="fas fa-history me-2"></i> Order Timeline</h4>
+                <div class="timeline">
+                    <div class="timeline-item completed">
+                        <div class="timeline-content completed">
+                            <h5 class="mb-1"><i class="fas fa-check-circle me-2 text-success"></i> Order Placed</h5>
+                            <p class="mb-0 text-muted">Your order has been received and is being processed.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item current">
+                        <div class="timeline-content">
+                            <h5 class="mb-1"><i class="fas fa-cog me-2"></i> Order Processing</h5>
+                            <p class="mb-0 text-muted">We're preparing your items for shipment.</p>
+                            <small class="text-muted">Expected: Within 24 hours</small>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h5 class="mb-1"><i class="fas fa-shipping-fast me-2"></i> Shipped</h5>
+                            <p class="mb-0 text-muted">Your order will be dispatched from our warehouse.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h5 class="mb-1"><i class="fas fa-home me-2"></i> Delivered</h5>
+                            <p class="mb-0 text-muted">Your order will arrive at your doorstep.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Important Information -->
+                <div class="info-box">
+                    <h5><i class="fas fa-exclamation-circle info-icon"></i> Important Information</h5>
+                    <p class="mb-2"><strong>Cash on Delivery Instructions:</strong></p>
+                    <ul class="mb-0 ps-3">
+                        <li>Please keep the exact amount of <strong>₹{{ order.total_amount|floatformat:2 }}</strong> ready for payment</li>
+                        <li>Our delivery executive will call you before arrival</li>
+                        <li>You can pay via cash only on delivery</li>
+                        <li>You'll receive your invoice and warranty documents with the order</li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Support -->
+                <div class="info-box">
+                    <h5><i class="fas fa-headset info-icon"></i> Need Help?</h5>
+                    <p class="mb-2">Our customer support team is here to assist you with any questions about your order.</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="mb-1"><i class="fas fa-phone me-2"></i> <strong>Call us:</strong> +91 98765 43210</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-1"><i class="fas fa-envelope me-2"></i> <strong>Email:</strong> support@radhikaelectronics.com</p>
+                        </div>
+                    </div>
+                    <p class="mb-0"><i class="fas fa-clock me-2"></i> <strong>Support Hours:</strong> Monday-Saturday, 9 AM - 8 PM</p>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <a href="{% url 'order_invoice' order.id %}" class="btn-action btn-primary-action">
+                        <i class="fas fa-file-invoice"></i> View Invoice
+                    </a>
+                    
+                    <a href="{% url 'order_history' %}" class="btn-action btn-secondary-action">
+                        <i class="fas fa-history"></i> View Order History
+                    </a>
+                    
+                    <a href="{% url 'home' %}" class="btn-action btn-secondary-action">
+                        <i class="fas fa-shopping-bag"></i> Continue Shopping
+                    </a>
+                </div>
+                
+                <!-- Confirmation Message -->
+                <div class="text-center mt-4">
+                    <p class="text-muted">
+                        <i class="fas fa-envelope me-2"></i> A confirmation email has been sent to your registered email address.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Create confetti effect
+        function createConfetti() {
+            const colors = ['#4a6fa5', '#166088', '#4fc3a1', '#ffd700', '#ff6b6b'];
+            const container = document.querySelector('.success-header');
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = confetti.style.width;
+                container.appendChild(confetti);
+                
+                // Animate confetti
+                setTimeout(() => {
+                    confetti.style.opacity = '1';
+                    confetti.style.transform = `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px) rotate(${Math.random() * 360}deg)`;
+                    confetti.style.transition = 'all 1s ease-out';
+                }, 100);
+                
+                // Remove confetti after animation
+                setTimeout(() => {
+                    confetti.remove();
+                }, 2000);
+            }
+        }
+        
+        // Create confetti on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            createConfetti();
+            
+            // Auto-refresh status after 30 seconds (optional)
+            setTimeout(() => {
+                // You could add AJAX to check for status updates
+                console.log('Checking for order updates...');
+            }, 30000);
+        });
+        
+        // Print invoice function
+        function printInvoice() {
+            window.open("{% url 'order_invoice' order.id %}", "_blank");
+        }
+    </script>
+</body>
+</html>

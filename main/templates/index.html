@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Radhika Electronics | E-commerce</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Bootstrap + FontAwesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/index-dark.css' %}" />
+  </head>
+  <body class="dark-theme">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top px-4 py-3 shadow-sm">
+      <div class="container-fluid">
+        <a class="navbar-brand fw-bold text-primary" href="#">Radhika Electronics</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav mx-auto gap-3">
+            <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+
+<!-- Category Dropdown -->
+<li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="#" id="categoryDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Categories
+  </a>
+  <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+    {% for cat in categories %}
+      {% if forloop.counter <= 6 %}
+        <li><a class="dropdown-item" href="{% url 'home' %}?category={{ cat.id }}">{{ cat.name }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if categories|length > 6 %}
+      <li><hr class="dropdown-divider"></li>
+      <li><a class="dropdown-item text-primary" href="{% url 'home' %}">View More</a></li>
+    {% endif %}
+  </ul>
+</li>
+            <li class="nav-item"><a class="nav-link" href="#feedback">Feedback</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Shop</a></li>
+          </ul>
+
+          <div class="d-flex align-items-center gap-2 ms-lg-auto mt-3 mt-lg-0">
+            {% if user.is_authenticated %}
+              <a class="nav-link">Hi, {{ user.username }}</a>
+              <a href="{% url 'logout_user' %}" class="btn btn-outline-light btn-sm">Logout</a>
+              <a href="#" class="text-light" title="Cart"><i class="fas fa-shopping-cart fs-5"></i></a>
+              <a href="{% url 'wishlist' %}" class="text-light" title="Wishlist"><i class="fas fa-heart fs-5"></i></a>
+            {% else %}
+              <a href="{% url 'login_user' %}" class="btn btn-outline-light btn-sm">Login</a>
+              <a href="{% url 'register_user' %}" class="btn btn-outline-light btn-sm">Register</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section text-white text-center d-flex align-items-center justify-content-center">
+      <div class="hero-content px-3">
+        <h1 class="display-3 fw-bold text-white">Better Shopping Starts Here</h1>
+        <p class="lead fs-6">Top electronics, latest gadgets, and home essentials at unbeatable prices.</p>
+        <a href="{% url 'home' %}" class="btn btn-primary px-4 py-2 mt-3 fw-semibold shadow-sm">Start Shopping</a>
+      </div>
+    </section>
+
+    <!-- Category Scroll Section -->
+    <section class="category-section py-5" id="category">
+      <div class="container">
+        <div class="text-center mb-3">
+          <h2 class="fw-bold">Browse by Category</h2>
+          <p class="lead fs-6">Explore our wide range of product categories</p>
+        </div>
+        <div class="category-scroll d-flex flex-nowrap overflow-auto gap-4 px-2">
+          {% for cat in categories %}
+            <a href="{% url 'home' %}?category={{ cat.id }}" class="text-decoration-none">
+              <div class="category-box text-center flex-shrink-0 px-4 py-3">
+                <i class="fa-solid {% cycle 'fa-laptop' 'fa-mobile-alt' 'fa-tv' 'fa-headphones' 'fa-mouse' 'fa-keyboard' 'fa-blender' 'fa-basket-shopping' 'fa-camera' 'fa-plug-circle-bolt' %} fa-2x text-accent mb-2"></i>
+                <p class="mb-0 fw-medium text-white">{{ cat.name }}</p>
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <!-- Feedback Section -->
+    <section id="feedback" class="feedback-section">
+      <div class="container">
+        <h2 class="text-center mb-4">We Love Your Feedback!</h2>
+        <form method="POST" class="mx-auto" style="max-width: 600px">
+          {% csrf_token %}
+          <div class="mb-3">
+            <input type="text" name="name" class="form-control" placeholder="Your Name" required value="{{ form.name.value|default:'' }}" />
+          </div>
+          <div class="mb-3">
+            <input type="email" name="email" class="form-control" placeholder="Your Email" required value="{{ form.email.value|default:'' }}" />
+          </div>
+          <div class="mb-3">
+            <input type="text" name="phone" class="form-control" placeholder="Your Phone Number" required value="{{ form.phone.value|default:'' }}" />
+          </div>
+          <div class="mb-3">
+            <textarea name="message" rows="5" class="form-control" placeholder="Your Message" required>{{ form.message.value|default:'' }}</textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-section py-5 bg-black text-white">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <h5 class="text-primary mb-3">Radhika Electronics</h5>
+            <p class="small">Your one-stop shop for quality gadgets, accessories, and the latest electronics. Fast shipping & great deals!</p>
+          </div>
+          <div class="col-md-4">
+            <h5 class="mb-3">Quick Links</h5>
+            <ul class="list-unstyled small">
+              <li><a href="#" class="text-decoration-none">Home</a></li>
+              <li><a href="#" class="text-decoration-none">Shop</a></li>
+              <li><a href="#" class="text-decoration-none">About Us</a></li>
+              <li><a href="#feedback" class="text-decoration-none">Feedback</a></li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h5 class="mb-3">Contact Us</h5>
+            <p class="small">Email: aditapdiya@gmail.com</p>
+            <p class="small">Phone: +91 77090 86723</p>
+            <p class="small">Location: Pune, Maharashtra</p>
+          </div>
+        </div>
+        <hr class="border-secondary" />
+        <p class="text-center small mt-4">&copy; 2025 Radhika Electronics. All rights reserved. | Developed and Mantained by Aditya Tapdiya</p>
+      </div>
+    </footer>
+
+    <!-- Bootstrap Script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

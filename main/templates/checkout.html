@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Radhika Electronics</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #166088;
+            --accent-color: #4fc3a1;
+            --light-bg: #f8f9fa;
+            --success-color: #28a745;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+        
+        .checkout-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        
+        .checkout-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            border: none;
+            margin-bottom: 30px;
+        }
+        
+        .checkout-header {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 25px 30px;
+            border-bottom: 5px solid var(--accent-color);
+        }
+        
+        .checkout-header h1 {
+            font-weight: 700;
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        
+        .checkout-header p {
+            opacity: 0.9;
+            margin: 10px 0 0;
+            font-size: 1rem;
+        }
+        
+        .checkout-body {
+            padding: 30px;
+        }
+        
+        .order-summary-card {
+            background: var(--light-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            border-left: 5px solid var(--accent-color);
+            margin-bottom: 30px;
+        }
+        
+        .payment-method {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .payment-method:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+        
+        .payment-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .cod-badge {
+            background: linear-gradient(to right, #28a745, #20c997);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        
+        .total-amount {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin: 10px 0;
+        }
+        
+        .info-box {
+            background: #f0f8ff;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin: 25px 0;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .info-icon {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-right: 10px;
+        }
+        
+        .btn-checkout {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            border: none;
+            transition: all 0.3s ease;
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-checkout:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(74, 111, 165, 0.3);
+            color: white;
+        }
+        
+        .btn-checkout:active {
+            transform: translateY(-1px);
+        }
+        
+        .secure-checkout {
+            text-align: center;
+            margin-top: 20px;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .secure-icon {
+            color: var(--success-color);
+            margin-right: 8px;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .step-indicator::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: #dee2e6;
+            z-index: 1;
+        }
+        
+        .step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+        
+        .step-circle {
+            width: 35px;
+            height: 35px;
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #6c757d;
+        }
+        
+        .step.active .step-circle {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+        
+        .step.completed .step-circle {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            color: white;
+        }
+        
+        .step-label {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        
+        .step.active .step-label {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .back-to-cart {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .back-to-cart:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .checkout-container {
+                padding: 15px;
+                margin: 20px auto;
+            }
+            
+            .checkout-body {
+                padding: 20px;
+            }
+            
+            .total-amount {
+                font-size: 1.8rem;
+            }
+            
+            .step-indicator::before {
+                left: 5%;
+                right: 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="checkout-container">
+        <!-- Step Indicator -->
+        <div class="step-indicator">
+            <div class="step completed">
+                <div class="step-circle"><i class="fas fa-shopping-cart"></i></div>
+                <div class="step-label">Cart</div>
+            </div>
+            <div class="step active">
+                <div class="step-circle">2</div>
+                <div class="step-label">Checkout</div>
+            </div>
+            <div class="step">
+                <div class="step-circle">3</div>
+                <div class="step-label">Confirmation</div>
+            </div>
+        </div>
+        
+        <!-- Back to Cart Link -->
+        <a href="{% url 'view_cart' %}" class="back-to-cart">
+            <i class="fas fa-arrow-left me-2"></i> Back to Cart
+        </a>
+        
+        <!-- Main Checkout Card -->
+        <div class="checkout-card">
+            <!-- Header -->
+            <div class="checkout-header">
+                <h1><i class="fas fa-shopping-bag me-2"></i> Complete Your Order</h1>
+                <p>Review your items and confirm your purchase</p>
+            </div>
+            
+            <!-- Body -->
+            <div class="checkout-body">
+                <form method="POST" action="{% url 'place_cod_order' %}">
+                    {% csrf_token %}
+                    
+                    <!-- Order Summary -->
+                    <div class="order-summary-card">
+                        <h3 class="mb-4"><i class="fas fa-receipt me-2"></i> Order Summary</h3>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="mb-0">Total Amount:</h5>
+                            <div class="total-amount">₹{{ total|floatformat:2 }}</div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-2">
+                                    <i class="fas fa-box me-2 text-muted"></i>
+                                    <span class="text-muted">Items in cart:</span>
+                                    <span class="fw-bold ms-2">{{ request.session.cart|length }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-2">
+                                    <i class="fas fa-truck me-2 text-muted"></i>
+                                    <span class="text-muted">Delivery:</span>
+                                    <span class="fw-bold ms-2">Free</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Payment Method -->
+                    <div class="payment-method">
+                        <div class="payment-icon text-center">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        
+                        <div class="text-center mb-3">
+                            <span class="cod-badge">CASH ON DELIVERY</span>
+                            <h4 class="mb-3">Pay When You Receive</h4>
+                            <p class="text-muted mb-0">No online payment required. Pay cash to our delivery agent.</p>
+                        </div>
+                        
+                        <div class="info-box">
+                            <h5><i class="fas fa-info-circle info-icon"></i> How Cash on Delivery Works</h5>
+                            <ul class="mb-0 ps-3">
+                                <li>Order is placed without any payment</li>
+                                <li>You'll receive a confirmation call within 24 hours</li>
+                                <li>Pay the exact amount when your order arrives</li>
+                                <li>Get your invoice and warranty documents on delivery</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Delivery Info -->
+                    <div class="info-box">
+                        <h5><i class="fas fa-shipping-fast info-icon"></i> Delivery Information</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="mb-1"><strong>Estimated Delivery:</strong> 3-5 business days</p>
+                                <p class="mb-1"><strong>Delivery Hours:</strong> 9 AM - 8 PM</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="mb-1"><strong>Contactless Delivery:</strong> Available</p>
+                                <p class="mb-0"><strong>Order Tracking:</strong> Available after dispatch</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Terms and Conditions -->
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                        <label class="form-check-label" for="termsCheck">
+                            I agree to the <a href="#" class="text-decoration-none">Terms & Conditions</a> and confirm that all information provided is accurate.
+                        </label>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-checkout">
+                        <i class="fas fa-check-circle me-2"></i> Place Order (Cash on Delivery)
+                    </button>
+                    
+                    <!-- Secure Checkout Note -->
+                    <div class="secure-checkout">
+                        <i class="fas fa-lock secure-icon"></i> Secure checkout • Your information is protected
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Support Info -->
+        <div class="text-center mt-4">
+            <p class="text-muted">
+                <i class="fas fa-headset me-2"></i> Need help? Call us at <strong>+91 98765 43210</strong> or email <strong>support@radhikaelectronics.com</strong>
+            </p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Form validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const termsCheck = document.getElementById('termsCheck');
+            if (!termsCheck.checked) {
+                e.preventDefault();
+                alert('Please agree to the Terms & Conditions to proceed.');
+                termsCheck.focus();
+            }
+        });
+        
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkoutBtn = document.querySelector('.btn-checkout');
+            
+            checkoutBtn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px)';
+            });
+            
+            checkoutBtn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>

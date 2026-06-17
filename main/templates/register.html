@@ -1,0 +1,143 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up - Radhika Electronics</title>
+  <link rel="stylesheet" href="{% static 'css/register-glow.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+  body {
+    opacity: 1;
+    transition: opacity 0.5s ease;
+  }
+  body.fade-out {
+    opacity: 0;
+  }
+</style>
+
+</head>
+<body>
+<a href="javascript:history.back()" class="back-btn">&larr; Back</a>
+<div class="container">
+  <div class="register-box">
+    <div class="form-section">
+      <h2 class="title">Sign Up</h2>
+
+      {% if messages %}
+  <div class="modal-overlay" id="popupModal">
+    <div class="modal-box">
+      {% for message in messages %}
+        {% if message.tags == 'success' %}
+          <div class="modal-icon success"><i class="fas fa-check-circle"></i></div>
+          <h2>Registration Successful</h2>
+          <p>{{ message }}</p>
+        {% endif %}
+        {% if message.tags == 'error' %}
+          <div class="modal-icon error"><i class="fas fa-times"></i></div>
+          <h2>Error</h2>
+          <p>{{ message }}</p>
+        {% endif %}
+      {% endfor %}
+      <button class="modal-button" onclick="closeModal()">OK</button>
+    </div>
+  </div>
+{% endif %}
+
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="message-box {{ message.tags }}">
+            <i class="fas fa-info-circle"></i> {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <form method="POST" id="stepForm">
+        {% csrf_token %}
+
+        <div class="step active" data-step="0">
+          <div class="form-group">{{ form.mobile.label_tag }} {{ form.mobile }}</div>
+          {% if form.mobile.errors %}<div class="error-text">{{ form.mobile.errors|striptags }}</div>{% endif %}
+          <button type="button" class="next-btn">Next</button>
+        </div>
+
+        <div class="step" data-step="1">
+          <div class="form-group">{{ form.email.label_tag }} {{ form.email }}</div>
+          {% if form.email.errors %}<div class="error-text">{{ form.email.errors|striptags }}</div>{% endif %}
+          <button type="button" class="next-btn">Next</button>
+        </div>
+
+        <div class="step" data-step="2">
+          <div class="form-row">
+            <div class="form-group half-width">{{ form.first_name.label_tag }} {{ form.first_name }}</div>
+            <div class="form-group half-width">{{ form.last_name.label_tag }} {{ form.last_name }}</div>
+          </div>
+          {% if form.first_name.errors or form.last_name.errors %}<div class="error-text">{{ form.first_name.errors|striptags }} {{ form.last_name.errors|striptags }}</div>{% endif %}
+          <button type="button" class="next-btn">Next</button>
+        </div>
+
+        <div class="step" data-step="3">
+          <div class="form-group">{{ form.username.label_tag }} {{ form.username }}</div>
+          {% if form.username.errors %}<div class="error-text">{{ form.username.errors|striptags }}</div>{% endif %}
+          <button type="button" class="next-btn">Next</button>
+        </div>
+
+        <div class="step" data-step="4">
+          <div class="form-group">{{ form.password1.label_tag }} {{ form.password1 }}</div>
+          {% if form.password1.errors %}<div class="error-text">{{ form.password1.errors|striptags }}</div>{% endif %}
+          <div class="form-group">{{ form.password2.label_tag }} {{ form.password2 }}</div>
+          {% if form.password2.errors %}<div class="error-text">{{ form.password2.errors|striptags }}</div>{% endif %}
+          <button type="button" class="next-btn">Next</button>
+        </div>
+
+        <div class="step" data-step="5">
+          <div class="form-group">{{ form.address.label_tag }} {{ form.address }}</div>
+          {% if form.address.errors %}<div class="error-text">{{ form.address.errors|striptags }}</div>{% endif %}
+          <button type="submit" class="submit-btn">Register</button>
+        </div>
+      </form>
+
+      <p class="alt-link">Already have an account? <a id="goToRegister" href="{% url 'login_user' %}">Log In</a></p>
+    </div>
+
+    <div class="image-section">
+      <img src="{% static 'images/robot-glow.png' %}" alt="Robot">
+    </div>
+  </div>
+</div>
+
+<script>
+  const steps = document.querySelectorAll('.step');
+  const nextButtons = document.querySelectorAll('.next-btn');
+  let currentStep = 0;
+
+  nextButtons.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+      if (steps[index]) steps[index].classList.remove('active');
+      if (steps[index + 1]) steps[index + 1].classList.add('active');
+    });
+  });
+</script>
+<script>
+  function closeModal() {
+    const modal = document.getElementById("popupModal");
+    if (modal) modal.style.display = "none";
+  }
+    document.addEventListener("DOMContentLoaded", function () {
+    const link = document.getElementById("goToRegister");
+    if (link) {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        document.body.classList.add("fade-out");
+        setTimeout(function () {
+          window.location.href = link.href;
+        }, 500); // Match the duration in CSS
+      });
+    }
+  });
+</script>
+
+</body>
+</html>
