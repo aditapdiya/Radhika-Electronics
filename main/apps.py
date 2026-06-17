@@ -8,13 +8,21 @@ class MainConfig(AppConfig):
         import main.signals 
 
 
+
 from django.contrib.auth import get_user_model
+from main.models import UserProfile
 
 User = get_user_model()
 
 if not User.objects.filter(username='admin').exists():
-    User.objects.create_superuser(
+    user = User.objects.create_superuser(
         username='admin',
-        email='jajsandesh@gmail.com',
-        password='admin'
+        email='admin@example.com',
+        password='Admin@123'
+    )
+
+    UserProfile.objects.create(
+        user=user,
+        mobile='9876543210',
+        address='Admin Address'
     )
